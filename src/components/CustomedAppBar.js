@@ -87,7 +87,7 @@ const signedSettings = [{content:'Profile',action:profileAction},{content:'Logou
         let accToken = localStorage.getItem('nT');
         let refToken = localStorage.getItem('refreshToken');
         if(accToken && refToken){
-          axios.defaults.headers.common['Authorization']=`Bearer ${accToken}`;
+          axios.defaults.headers.common.Authorization=`Bearer ${accToken}`;
           const response = await axios.post('/auth/refresh',{
             refreshToken:refToken
           },{
@@ -100,7 +100,14 @@ const signedSettings = [{content:'Profile',action:profileAction},{content:'Logou
           setLoading(false);
         }
       }catch(err){
-        console.error(err);
+        if(err.response.status===403){
+          setToken(null);
+          setUser(null);
+          localStorage.removeItem('nT');
+          localStorage.removeItem('refreshToken');
+        }else{
+          console.error(err);
+        }
         setLoading(false);
       }
     }
@@ -140,10 +147,6 @@ const signedSettings = [{content:'Profile',action:profileAction},{content:'Logou
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  function test(){
-    console.log(user,token);
-  }
 
   return (
     <AppBar position="static">
@@ -285,7 +288,6 @@ const signedSettings = [{content:'Profile',action:profileAction},{content:'Logou
             </Menu>
           </Box> :
            <Box sx={{flexGrow:0}}><Link href="/signin" color="secondary">로그인</Link> <Link href="/signup" color="secondary">회원가입</Link></Box>)}
-           <Button onClick={test}>Check</Button>
         </Toolbar>
       </Container>
     </AppBar>

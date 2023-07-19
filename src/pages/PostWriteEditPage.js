@@ -7,7 +7,7 @@ import ImageResize from "quill-image-resize";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageDialog from "../components/ImageDialog";
 import { useRecoilState } from "recoil";
-import { userState } from "../atoms";
+import { baseURL, userState } from "../atoms";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import FileDialog from "../components/FileDialog";
 
@@ -72,7 +72,7 @@ export default function PostWriteEditPage(props){
     useEffect(()=>{
         async function getAllCategories(){
             try{
-                const URL = "http://localhost:3000/category/"
+                const URL = "/category"
                 const data = await axios.get(URL);
                 if(data.status !== 200){
                     setCatError(true);
@@ -87,7 +87,7 @@ export default function PostWriteEditPage(props){
         async function getTargetPost(){
             try{
                 setPostLoading(true);
-                const URL = `http://localhost:3000/post/${postid}`
+                const URL = `/post/${postid}`
                 const data = await axios.get(URL);
                 if(data.status !== 200){
                     setPostError(true);
@@ -175,12 +175,11 @@ export default function PostWriteEditPage(props){
             const response = await axios.post('/files/images',formdata,{
                 'Content-Type':'multipart/form-data'
             });
-            const BaseURL = "http://localhost:3000/";
             const editor = quillRef.current.getEditor();
             response.data.data.forEach(resfile =>{
                 let index = (editor.getSelection() || {}).index;
                 if(index===undefined||index<0)index=editor.getLength();
-                const getpath = BaseURL + resfile.filepath;
+                const getpath = baseURL + '/' + resfile.filepath;
                 editor.insertEmbed(index ,'image',{
                   alt:resfile.filepath,
                   src:getpath

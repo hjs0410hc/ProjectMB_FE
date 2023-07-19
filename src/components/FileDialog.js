@@ -14,7 +14,6 @@ export default function FileDialog(props) {
     const [uploadLoading,setUploadLoading]=React.useState(false);
     const [uploadedImages,setUploadedImages] = React.useState([]);
     const [uploadingFiles,setUploadingFiles] = React.useState([]);
-    const BaseURL = "http://localhost:3000/";
 
   const handleClose = () => {
     setOpen(false);

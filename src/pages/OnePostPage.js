@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import OnePostComponent from '../components/OnePostComponent';
 import { useNavigate,useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { userState } from '../atoms';
+import { baseURL, userState } from '../atoms';
 import DeletePostDialog from '../components/DeletePostDialog';
 import queryString from 'query-string';
 import CommentComp from '../components/CommentComp';
@@ -65,8 +65,6 @@ const OnePostPage = (props) => {
     }
     
 
-    const APIURL = "http://localhost:3000"
-
     const addCommentToPost = async (e)=>{
         e.preventDefault(true);
         try{
@@ -89,7 +87,7 @@ const OnePostPage = (props) => {
                 {post.files.length>0 && <Card sx={{marginTop:'10px',marginBottom:'10px',padding:'10px'}}>
                     첨부파일 목록
                     { post.files.map((file,index)=>{
-                        return <Typography key={file.filename}><a href={`${APIURL}/files/${file.filename}`} target="_blank" rel="noreferrer">{index+1}: {file.filename}</a></Typography>
+                        return <Typography key={file.filename}><a href={`${baseURL}/files/${file.filename}`} target="_blank" rel="noreferrer">{index+1}: {file.filename}</a></Typography>
                     })}
                 </Card>}
                 <Grid container>

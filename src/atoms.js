@@ -10,4 +10,6 @@ const userState = atom({
     default: null,
 })
 
-export {tokenState,userState};
+const baseURL = "https://blog.thxx.xyz:3000";
+
+export {tokenState,userState,baseURL};

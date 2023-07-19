@@ -19,7 +19,7 @@ const Wysiwygtest = (props) => {
         window.addEventListener("message",async (e)=>{
             if(e.data.sHTML){
                 try{
-                    const URL = "http://localhost:3000/post/";
+                    const URL = "https://blog.thxx.xyz:3000/post/";
                     setLoading(true);
                     await axios.post(URL,{
                         title:title,

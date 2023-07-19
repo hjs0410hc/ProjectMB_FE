@@ -7,13 +7,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Grid, Typography } from '@mui/material';
 import axios from 'axios';
+import { baseURL } from '../atoms';
 
 export default function ImageDialog(props) {
     const {open,setOpen,quillref} = props;
     const [uploadError,setUploadError]=React.useState(false);
     const [uploadLoading,setUploadLoading]=React.useState(false);
     const [uploadedImages,setUploadedImages] = React.useState([]);
-    const BaseURL = "http://localhost:3000/";
 
   const handleClose = () => {
     setOpen(false);
@@ -48,12 +48,11 @@ export default function ImageDialog(props) {
     uploadImages(event.target.files);
   }
   const addImagestoEditor = ()=>{
-    const BaseURL = "http://localhost:3000/";
     const editor = quillref.current.getEditor();
     uploadedImages.forEach(resfile =>{
       let index = (editor.getSelection() || {}).index;
       if(index===undefined||index<0)index=editor.getLength();
-      const getpath = BaseURL + resfile.filepath;
+      const getpath = baseURL + '/' + resfile.filepath;
       editor.insertEmbed(index ,'image',{
         alt:resfile.filepath,
         src:getpath
@@ -90,7 +89,7 @@ export default function ImageDialog(props) {
             {uploadedImages && uploadedImages.map((image,index)=>(
             <Grid item key={index}>
                 <Typography>{index+1}</Typography>
-                <img id={image.filepath} src={BaseURL+image.filepath} alt={image.filepath} style={{maxWidth:'30%'}} onClick={removeImage} />
+                <img id={image.filepath} src={baseURL+'/'+image.filepath} alt={image.filepath} style={{maxWidth:'30%'}} onClick={removeImage} />
             </Grid>
             ))}
           </Grid>

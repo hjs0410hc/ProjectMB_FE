@@ -26,7 +26,7 @@ const PostWritePage = (props) => {
     useEffect(()=>{
         async function getAllCategories(){
             try{
-                const URL = "http://localhost:3000/category/"
+                const URL = "/category"
                 const data = await axios.get(URL);
                 if(data.status !== 200){
                     setWriteerror(true);
